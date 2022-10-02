@@ -1,5 +1,6 @@
 #include <iostream> //библиотека,которая содержит потоки ввода и вывода
 #include <string>  //тип string применяется для хранения строк 
+#include <fstream> //библиотека,которая содержит потоки,которые организовывакют чтение/запись из файла/запись в файл
 
 using namespace std; //сообщает компилятору ,что мы хотим испоьзовать все,что находится в пространстве std
 
@@ -9,6 +10,14 @@ struct pipe //создаем структуру с именем pipe
     int lenght;
     int diametr;
     bool repair;//bool - встроенный тип.Переменная этого типа имеют значения true or false
+};
+
+struct CS //создаем структуру с именем cs
+{
+    string name;
+    int countWS;
+    int actWS;
+    float eff; //float- представляет вещественное число двойной точности с плавающей точкой
 };
 
 void print_menu()
@@ -46,7 +55,7 @@ pipe AddPipe()
     pipe Obj;
     system("cls");//очищаем экран
     cout << "Добавление трубы\n";
-    cout << "Имя: ";
+    cout << "Название: ";
     cin >> Obj.name;
     cout << "Длинна (м): ";
     cin >> Obj.lenght;
@@ -57,12 +66,38 @@ pipe AddPipe()
     return Obj;
 }
 
+//добавление кс
+CS AddCS()
+{
+    CS Obj;
+    system("cls");//очищаем экран
+    cout << "Добавление КС\n";
+    cout << "Название: ";
+    cin >> Obj.name;
+    cout << "Кол-во цехов: ";
+    cin >> Obj.countWS;
+    cout << "Кол-во цехов в работе: ";
+    cin >> Obj.actWS;
+    cout << "Эффективность: ";
+    cin >> Obj.eff;
+    return Obj;
+}
+
 //вывод параметров трубы
 void ShowPipe(const pipe& Obj)
 {
-    cout << "Имя\t" << "Длинна\t" << "Диаметр\t" << "Ремонт\t" << endl; //вывод значений параметров трубы на консоль
-    cout << "================================================" << endl; //вывод данной "строки" на консоль
+    cout << "Имя\t" << "Длина\t" << "Диаметр\t" << "Ремонт\t" << endl; //вывод значений параметров трубы на консоль
+    cout << "---------------------------------------------------------------------------" << endl; //вывод данной "строки" на консоль
     cout << Obj.name << '\t' << Obj.lenght << '\t' << Obj.diametr << '\t' << Obj.repair << endl;
+
+}
+
+//вывод параметров КС
+void ShowCS(const CS& Obj)
+{
+    cout << "Имя\t" << "Цехи\t" << "В работе" << " Эффективность\t" << endl;//вывод значений параметров КС на консоль
+    cout << "---------------------------------------------------------------------------" << endl;//вывод данной "строки" на консоль
+    cout << Obj.name << '\t' << Obj.countWS << '\t' << Obj.actWS << '\t' << Obj.eff << endl;
 }
 
 //редактирование параметров трубы
@@ -97,6 +132,38 @@ void EditPipe(pipe& Obj)
     }
 }
 
+//редактирование параметров КС
+void EditCS(CS& Obj)
+{
+    system("cls");//очищаем экран
+    cout << "Что редактируем?\n" << "1. Имя\n" << "2. Кол-во цехов\n" << "3. Кол-во цехов в работе\n" << "4. Эффективность\n" << "0. Выход\n" << ">";
+    int cursor = get_variant(4);// получаем номер выбранного пункта меню
+    switch (cursor) {
+    case 1:
+        cout << "Текущее имя: " << Obj.name << "\n";
+        cout << "Новое имя: ";
+        cin >> Obj.name;
+        break;
+    case 2:
+        cout << "Текущее кол-во цехов: " << Obj.countWS << "\n";
+        cout << "Новое кол-во цехов: ";
+        cin >> Obj.countWS;
+        break;
+    case 3:
+        cout << "Текущее кол-во цехов в работе: " << Obj.actWS << "\n";
+        cout << "Новое кол-во цехов в работе: ";
+        cin >> Obj.actWS;
+        break;
+    case 4:
+        cout << "Текущая эффективность: " << Obj.eff << "\n";
+        cout << "Новая эффективность: ";
+        cin >> Obj.eff;
+        break;
+    case 0:
+        break;
+    }
+}
+
 
 int main() //вызов функции main()
 {
@@ -104,6 +171,7 @@ int main() //вызов функции main()
     int cursor;
 
     pipe p = { "0", 0, 0, 0 };
+    CS CS = { "0", 0, 0, 0 };
 
     do
     {
@@ -116,12 +184,31 @@ int main() //вызов функции main()
             p = AddPipe();
             break;
         }
+        case 2:
+        {
+            CS = AddCS();
+            break;
+        }
 
-
+        case 3:
+        {
+            system("cls");
+            cout << "Просмотр всех объектов\n\n";
+            ShowPipe(p);
+            cout << "\n";
+            ShowCS(CS);
+            break;
+        }
 
         case 4:
         {            
             EditPipe(p);
+            break;
+        }
+
+        case 5:
+        {
+            EditCS(CS);
             break;
         }
 
