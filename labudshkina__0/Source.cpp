@@ -42,7 +42,7 @@ int Get_variant1(int k)
         while ((cin.fail()) || (z < 0) || (z > k) || (cin.get() != '\n')) {//(||)-логическое сложение,ИЛИ
             std::cin.clear();
             std::cin.ignore(1000000, '\n');//
-            std::cout << "Введено корректное число.Повторите попытку: ";
+            std::cout << "Введено не корректное число.Повторите попытку: ";
             std::cin >> z;
     }
     return z;
@@ -54,7 +54,7 @@ float Get_variant2(float n) {
     while ((std::cin.fail()) || (a < 0) || (a > n) || (std::cin.get() != '\n')) {
         std::cin.clear();
         std::cin.ignore(1000000, '\n');
-        std::cout << "Введите корректное число: ";
+        std::cout << "Введено не корректное число.Повторите попытку: ";
         std::cin >> a;
     }
     return a;
